@@ -1,0 +1,64 @@
+.todo-detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.navigation-card {
+    margin-bottom: 24px;
+}
+
+.detail-card {
+    margin-bottom: 24px;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.detail-header h2 {
+    margin: 0;
+    margin-right: 16px;
+}
+
+.content-card {
+    margin-bottom: 24px;
+    background: #f9f9f9;
+}
+
+.todo-content {
+    font-size: 16px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.info-card {
+    margin-bottom: 24px;
+}
+
+.timeline-card {
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .detail-header {
+        flex-direction: column;
+    }
+
+    .detail-header > div:first-child {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+}
