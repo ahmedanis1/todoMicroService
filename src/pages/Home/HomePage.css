@@ -1,0 +1,22 @@
+.home-container {
+    padding: 24px 0;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.table-header h3 {
+    margin: 0;
+}
+
+.ant-table-row:hover {
+    background-color: #f0f5ff;
+}
+
+.ant-table-row {
+    transition: all 0.3s ease;
+}

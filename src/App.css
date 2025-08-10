@@ -1,0 +1,10 @@
+.App {
+  text-align: center;
+}
+
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+}
