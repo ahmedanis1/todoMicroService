@@ -20,7 +20,8 @@ export class Todo {
         type: 'varchar',
         length: 36,
         unique: true,
-        nullable: false
+        nullable: false,
+        default: () => "''" // Add temporary default
     })
     uuid: string;
 
@@ -58,8 +59,13 @@ export class Todo {
 
     @BeforeInsert()
     generateUuid() {
-        if (!this.uuid) {
+        if (!this.uuid || this.uuid === '') {
             this.uuid = uuidv4();
         }
+    }
+
+    constructor() {
+        this.uuid = uuidv4();
+        this.completed = false;
     }
 }

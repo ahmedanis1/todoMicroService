@@ -40,6 +40,7 @@ const HomePage = () => {
                 setTodos(response.data || []);
             }
         } catch (error) {
+            console.log(error);
             message.error('Failed to fetch todos');
         } finally {
             setLoading(false);

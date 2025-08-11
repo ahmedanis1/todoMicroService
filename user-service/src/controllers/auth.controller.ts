@@ -15,7 +15,9 @@ export const register = async (
             message: 'User registered successfully',
             data: result
         });
+        console.log(result)
     } catch (error) {
+        console.error('Register error:', error);
         next(error);
     }
 };

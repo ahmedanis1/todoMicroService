@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt.util';
 import { AppError } from './error.middleware';
-import { AuthRequest } from '../types';
+
+export interface AuthRequest extends Request {
+    user?: {
+        userId: string;
+        email: string;
+    };
+}
 
 export const authenticate = (
     req: AuthRequest,
@@ -25,15 +31,22 @@ export const authenticate = (
 
         next();
     } catch (error) {
-        console.error('Auth middleware error:', error);
+        if (error instanceof AppError) {
+            next(error);
+            return;
+        }
+
         if (error instanceof Error) {
             if (error.message.includes('expired')) {
-                throw new AppError('Token expired', 401);
+                next(new AppError('Token expired', 401));
+                return;
             }
             if (error.message.includes('invalid') || error.message.includes('malformed')) {
-                throw new AppError('Invalid token', 401);
+                next(new AppError('Invalid token', 401));
+                return;
             }
         }
-        throw new AppError('Authentication failed', 401);
+
+        next(new AppError('Authentication failed', 401));
     }
 };

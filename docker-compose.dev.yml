@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # MySQL Database (Development)
+  mysql-db-dev:
+    image: mysql:8.0
+    container_name: mysql-db-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_DATABASE: maindb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-dev-data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - todo-network-dev
+
+  # User Service (Development with hot reload)
+  user-service-dev:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile.dev
+    container_name: user-service-dev
+    volumes:
+      - ./user-service:/app
+      - /app/node_modules
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DB_HOST: mysql-db-dev
+      DB_PORT: 3306
+      DB_USER: userservice
+      DB_PASSWORD: userpass123
+      DB_NAME: userdb
+      JWT_SECRET: dev-secret-key
+      JWT_EXPIRES_IN: 24h
+    depends_on:
+      - mysql-db-dev
+    networks:
+      - todo-network-dev
+    command: npm run dev
+
+  # Todo Service (Development with hot reload)
+  todo-service-dev:
+    build:
+      context: ./todo-microservices/todo-service
+      dockerfile: Dockerfile.dev
+    container_name: todo-service-dev
+    volumes:
+      - ./todo-service:/app
+      - /app/node_modules
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      PORT: 3002
+      DB_HOST: mysql-db-dev
+      DB_PORT: 3306
+      DB_USER: todoservice
+      DB_PASSWORD: todopass123
+      DB_NAME: tododb
+      JWT_SECRET: dev-secret-key
+    depends_on:
+      - mysql-db-dev
+    networks:
+      - todo-network-dev
+    command: npm run dev
+
+  # Frontend (Development with hot reload)
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: frontend-dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_USER_SERVICE_URL: http://localhost:3001
+      REACT_APP_TODO_SERVICE_URL: http://localhost:3002
+    depends_on:
+      - user-service-dev
+      - todo-service-dev
+    networks:
+      - todo-network-dev
+    command: npm start
+
+volumes:
+  mysql-dev-data:
+
+networks:
+  todo-network-dev:
+    driver: bridge

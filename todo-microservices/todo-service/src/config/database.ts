@@ -11,8 +11,9 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER || 'todoservice',
     password: process.env.DB_PASSWORD || 'todopass123',
     database: process.env.DB_NAME || 'tododb',
-    synchronize: process.env.NODE_ENV === 'development',
+    synchronize: process.env.TYPEORM_SYNC === 'true',
     logging: process.env.NODE_ENV === 'development',
     entities: [Todo],
-    connectorPackage: 'mysql2'
+    connectorPackage: 'mysql2',
+    dropSchema: true,
 });

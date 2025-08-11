@@ -6,6 +6,7 @@ export const createTodoSchema = Joi.object({
         .max(1000)
         .required()
         .messages({
+            'string.empty': 'Todo content cannot be empty',
             'string.min': 'Todo content cannot be empty',
             'string.max': 'Todo content cannot exceed 1000 characters',
             'any.required': 'Todo content is required'
@@ -18,6 +19,7 @@ export const updateTodoSchema = Joi.object({
         .max(1000)
         .optional()
         .messages({
+            'string.empty': 'Todo content cannot be empty',
             'string.min': 'Todo content cannot be empty',
             'string.max': 'Todo content cannot exceed 1000 characters'
         }),

@@ -11,15 +11,15 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER || 'userservice',
     password: process.env.DB_PASSWORD || 'userpass123',
     database: process.env.DB_NAME || 'userdb',
-    synchronize: process.env.NODE_ENV === 'development',
-    logging: process.env.NODE_ENV === 'development',
+    synchronize: process.env.TYPEORM_SYNC === 'true',
+    logging: true,
     entities: [User],
     migrations: [],
     subscribers: [],
+    dropSchema: true,
+
     connectorPackage: 'mysql2',
     extra: {
-        connectionLimit: 10,
-        connectTimeout: 60000,
         acquireTimeout: 60000,
         timeout: 60000
     }
